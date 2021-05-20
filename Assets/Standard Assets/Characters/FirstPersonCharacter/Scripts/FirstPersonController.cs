@@ -42,7 +42,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private float m_NextStep;
         private bool m_Jumping;
         private AudioSource m_AudioSource;
-
+        public bool jump = false;
         // Use this for initialization
         private void Start()
         {
@@ -82,6 +82,20 @@ namespace UnityStandardAssets.Characters.FirstPerson
             }
 
             m_PreviouslyGrounded = m_CharacterController.isGrounded;
+
+            if( jump )
+            {
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    m_MoveDir.y = 10.0f;
+
+
+
+                    jump = false;
+                }
+                
+                
+            }
         }
 
 
@@ -255,6 +269,13 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 return;
             }
             body.AddForceAtPosition(m_CharacterController.velocity*0.1f, hit.point, ForceMode.Impulse);
+
+            if (hit.gameObject.CompareTag("Wall Jump"))
+            {
+                jump = true;
+
+            }
         }
     }
+
 }
